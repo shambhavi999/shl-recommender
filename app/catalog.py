@@ -104,7 +104,7 @@ class HybridRetriever:
         # ── Dense / FAISS ───────────────────────────────────────────────
         self._encoder: Optional[object] = None
         self._index: Optional[object] = None
-        if _HAS_DENSE and self._docs:
+        if _HAS_DENSE and self._docs and not settings.DISABLE_DENSE:
             try:
                 self._encoder = SentenceTransformer(settings.EMBED_MODEL)
                 embeddings = self._encoder.encode(

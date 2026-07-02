@@ -54,3 +54,4 @@ class _Settings:
     MIN_SLOTS_TO_RECOMMEND: int = 1  # role/description at minimum
     # The evaluator caps conversations at 8 turns total; we stop before that
     MAX_TURNS: int = 8
+    DISABLE_DENSE: bool = os.environ.get("DISABLE_DENSE", "false").lower() == "true"
