@@ -1,0 +1,30 @@
+{
+  "persona": "HR Manager hiring a mid-level Java developer who collaborates with stakeholders",
+  "facts": {
+    "role": "Java Developer",
+    "seniority": "Mid-level",
+    "experience_years": 4,
+    "skills": ["Java", "Spring Boot", "stakeholder communication"],
+    "industry": "Financial services"
+  },
+  "expected_assessments": [
+    "Java 8 (New)",
+    "Spring (New)",
+    "OPQ32r",
+    "Verify G+"
+  ],
+  "conversation": [
+    {
+      "role": "user",
+      "content": "I am hiring a Java developer who works closely with business stakeholders."
+    },
+    {
+      "role": "user",
+      "content": "Mid-level, around 4 years experience. They need strong Java skills and good communication."
+    },
+    {
+      "role": "user",
+      "content": "Yes, Spring Boot is important too. Please give me your top recommendations."
+    }
+  ]
+}

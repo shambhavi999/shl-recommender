@@ -1,0 +1,30 @@
+{
+  "persona": "Recruiter hiring a senior sales manager for a telecom company",
+  "facts": {
+    "role": "Sales Manager",
+    "seniority": "Manager",
+    "skills": ["sales", "team leadership", "B2B"],
+    "industry": "Telecommunications",
+    "test_type_preference": "personality and cognitive"
+  },
+  "expected_assessments": [
+    "OPQ32r",
+    "MQ (Motivational Questionnaire)",
+    "Verify G+",
+    "SJT Manager"
+  ],
+  "conversation": [
+    {
+      "role": "user",
+      "content": "We need assessments for a senior sales manager in telecom."
+    },
+    {
+      "role": "user",
+      "content": "Manager level. They will lead a team of 10 B2B sales reps."
+    },
+    {
+      "role": "user",
+      "content": "I'd like both personality and cognitive ability assessments. Please recommend."
+    }
+  ]
+}

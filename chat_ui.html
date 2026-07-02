@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHL Assessment Advisor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#f5f5f4;color:#1c1c1a;height:100vh;display:flex}
+.shell{display:flex;width:100%;height:100vh}
+.sidebar{width:220px;flex-shrink:0;background:#fafaf9;border-right:1px solid #e8e8e5;display:flex;flex-direction:column}
+.sidebar-logo{padding:20px 18px 16px;border-bottom:1px solid #e8e8e5;display:flex;align-items:center;gap:10px}
+.logo-mark{width:30px;height:30px;border-radius:8px;background:#1a1a1a;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-mark span{color:#fff;font-weight:700;font-size:11px;letter-spacing:-0.3px}
+.logo-text{font-size:13px;font-weight:600;color:#1c1c1a}
+.logo-sub{font-size:11px;color:#9b9b94}
+.new-btn{margin:12px;padding:8px 12px;border-radius:8px;border:1px solid #e0e0dc;background:#fff;color:#1c1c1a;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .1s;font-family:'Inter',sans-serif}
+.new-btn:hover{background:#f0f0ed}
+.sidebar-section{padding:14px 12px 6px}
+.sec-label{font-size:10px;font-weight:600;color:#b0b0a8;text-transform:uppercase;letter-spacing:.06em;padding:0 6px;margin-bottom:4px}
+.s-item{padding:7px 10px;border-radius:6px;font-size:13px;color:#6b6b63;cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .1s}
+.s-item:hover{background:#f0f0ed;color:#1c1c1a}
+.s-item.active{background:#ebebea;color:#1c1c1a;font-weight:500}
+.sidebar-footer{margin-top:auto;padding:12px;border-top:1px solid #e8e8e5}
+.api-badge{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:6px;background:#f0fdf4;border:1px solid #bbf7d0}
+.api-dot{width:6px;height:6px;border-radius:50%;background:#16a34a;flex-shrink:0;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.api-text{font-size:12px;color:#16a34a;font-weight:500}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{padding:14px 24px;border-bottom:1px solid #e8e8e5;display:flex;align-items:center;justify-content:space-between;background:#fafaf9;flex-shrink:0}
+.topbar-title{font-size:14px;font-weight:600;color:#1c1c1a}
+.topbar-meta{font-size:12px;color:#9b9b94;margin-top:1px}
+.topbar-actions{display:flex;gap:6px}
+.icon-btn{width:32px;height:32px;border-radius:7px;border:1px solid #e8e8e5;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#6b6b63;transition:background .1s;font-size:14px}
+.icon-btn:hover{background:#f0f0ed}
+.messages{flex:1;overflow-y:auto;padding:24px;display:flex;flex-direction:column;gap:18px;scroll-behavior:smooth}
+.empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:40px}
+.empty-icon{font-size:36px;margin-bottom:8px}
+.empty-title{font-size:20px;font-weight:600;color:#1c1c1a}
+.empty-sub{font-size:14px;color:#6b6b63;max-width:380px;line-height:1.7}
+.empty-tags{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:18px}
+.tag{padding:7px 16px;border-radius:20px;font-size:13px;border:1px solid #e0e0dc;color:#6b6b63;cursor:pointer;background:#fff;transition:all .15s;font-family:'Inter',sans-serif}
+.tag:hover{border-color:#b0b0a8;color:#1c1c1a;background:#fafaf9}
+.msg-row{display:flex;gap:10px;max-width:740px;width:100%}
+.msg-row.user{align-self:flex-end;flex-direction:row-reverse}
+.msg-row.assistant{align-self:flex-start}
+.avatar{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600}
+.avatar.user{background:#ebebea;border:1px solid #e0e0dc;color:#6b6b63}
+.avatar.assistant{background:#1a1a1a;color:#fff}
+.bubble{padding:11px 15px;font-size:14px;line-height:1.65;color:#1c1c1a;max-width:580px}
+.bubble.user{background:#fff;border:1px solid #e8e8e5;border-radius:16px 16px 4px 16px}
+.bubble.assistant{background:#fafaf9;border:1px solid #e8e8e5;border-radius:16px 16px 16px 4px}
+.bubble.typing{color:#9b9b94;font-style:italic}
+.rec-grid{display:flex;flex-direction:column;gap:7px;margin-top:12px}
+.rec-card{background:#fff;border:1px solid #e8e8e5;border-radius:10px;padding:11px 14px;display:flex;align-items:center;gap:11px;text-decoration:none;transition:border-color .15s,background .15s;cursor:pointer}
+.rec-card:hover{border-color:#d0d0cc;background:#fafaf9}
+.rec-icon{width:34px;height:34px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:15px}
+.rec-icon.K{background:#eff6ff;color:#2563eb}
+.rec-icon.P{background:#f5f3ff;color:#7c3aed}
+.rec-icon.A{background:#f0fdf4;color:#16a34a}
+.rec-icon.S{background:#fffbeb;color:#d97706}
+.rec-icon.B{background:#fef2f2;color:#dc2626}
+.rec-icon.C{background:#fff7ed;color:#ea580c}
+.rec-info{flex:1;min-width:0}
+.rec-name{font-size:13px;font-weight:500;color:#1c1c1a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rec-type{font-size:11px;color:#9b9b94;margin-top:2px}
+.rec-arrow{color:#b0b0a8;font-size:13px;flex-shrink:0}
+.input-area{padding:14px 20px 18px;border-top:1px solid #e8e8e5;background:#fafaf9;flex-shrink:0}
+.hints{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px}
+.chip{padding:5px 12px;border-radius:20px;border:1px solid #e0e0dc;background:#fff;font-size:12px;color:#6b6b63;cursor:pointer;transition:all .1s;font-family:'Inter',sans-serif}
+.chip:hover{border-color:#b0b0a8;color:#1c1c1a}
+.input-row{display:flex;gap:8px;align-items:flex-end;background:#fff;border:1px solid #e0e0dc;border-radius:12px;padding:10px 12px;transition:border-color .15s}
+.input-row:focus-within{border-color:#b0b0a8}
+#chat-input{flex:1;background:transparent;border:none;outline:none;font-size:14px;color:#1c1c1a;resize:none;font-family:'Inter',sans-serif;line-height:1.5;min-height:20px;max-height:120px}
+#chat-input::placeholder{color:#b0b0a8}
+.send-btn{width:34px;height:34px;border-radius:8px;background:#1a1a1a;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .1s;font-size:16px;color:#fff}
+.send-btn:hover{opacity:.85}
+.send-btn:disabled{opacity:.3;cursor:not-allowed}
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-mark"><span>SHL</span></div>
+      <div><div class="logo-text">Assessment Advisor</div><div class="logo-sub">SHL Labs</div></div>
+    </div>
+    <button class="new-btn" onclick="newChat()">＋ &nbsp;New conversation</button>
+    <div class="sidebar-section">
+      <div class="sec-label">Recent</div>
+      <div class="s-item active">🗨 Java developer</div>
+      <div class="s-item">🗨 Sales manager hiring</div>
+      <div class="s-item">🗨 Graduate scheme</div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sec-label">Links</div>
+      <div class="s-item" onclick="window.open('https://www.shl.com/solutions/products/product-catalog/')">↗ SHL catalog</div>
+      <div class="s-item" onclick="window.open('http://localhost:8000/docs')">↗ API docs</div>
+    </div>
+    <div class="sidebar-footer">
+      <div class="api-badge"><div class="api-dot"></div><span class="api-text">API connected · localhost:8000</span></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div><div class="topbar-title">Assessment Recommender</div><div class="topbar-meta">Individual Test Solutions · SHL catalog · 91 assessments</div></div>
+      <div class="topbar-actions">
+        <button class="icon-btn" title="New chat" onclick="newChat()">↺</button>
+        <button class="icon-btn" title="API docs" onclick="window.open('http://localhost:8000/docs')">↗</button>
+      </div>
+    </div>
+
+    <div class="messages" id="messages">
+      <div class="empty" id="empty">
+        <div class="empty-icon">🎯</div>
+        <div class="empty-title">Find the right assessment</div>
+        <div class="empty-sub">Describe the role you're hiring for and I'll recommend the best SHL assessments from the catalog.</div>
+        <div class="empty-tags">
+          <div class="tag" onclick="sendQuick('I am hiring a Java developer')">Java developer</div>
+          <div class="tag" onclick="sendQuick('Hiring a sales manager, manager level')">Sales manager</div>
+          <div class="tag" onclick="sendQuick('Graduate data scientist role')">Data scientist</div>
+          <div class="tag" onclick="sendQuick('Senior product manager')">Product manager</div>
+          <div class="tag" onclick="sendQuick('Entry level customer service rep')">Customer service</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="input-area">
+      <div class="hints">
+        <div class="chip" onclick="sendQuick('Add personality assessments too')">➕ Add personality tests</div>
+        <div class="chip" onclick="sendQuick('Keep assessments under 30 minutes')">⏱ Under 30 min only</div>
+        <div class="chip" onclick="sendQuick('What is the difference between OPQ32r and MQ?')">⚖ Compare OPQ vs MQ</div>
+        <div class="chip" onclick="sendQuick('I need cognitive ability tests')">🧠 Cognitive ability</div>
+      </div>
+      <div class="input-row">
+        <textarea id="chat-input" placeholder="Describe the role you're hiring for…" rows="1"
+          onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+        <button class="send-btn" id="send-btn" onclick="sendMessage()">↑</button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+const API = 'http://localhost:8000';
+let history = [];
+let waiting = false;
+
+const TYPE_LABELS = {K:'Knowledge & Skills',P:'Personality & Behavior',A:'Ability & Aptitude',S:'Simulation',B:'Situational Judgement',C:'Competencies',D:'Development & 360',E:'Assessment Exercise'};
+const TYPE_ICONS = {K:'💻',P:'🧠',A:'⚡',S:'🖥',B:'📋',C:'🏅',D:'📈',E:'🎭'};
+
+function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,120)+'px'}
+function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage()}}
+
+function newChat(){
+  history=[];
+  const m=document.getElementById('messages');
+  m.innerHTML='';
+  const e=document.createElement('div');
+  e.className='empty';e.id='empty';
+  e.innerHTML=document.querySelector('.empty').innerHTML||`<div class="empty-icon">🎯</div><div class="empty-title">Find the right assessment</div><div class="empty-sub">Describe the role you're hiring for.</div>`;
+  m.appendChild(e);
+}
+
+function sendQuick(t){document.getElementById('chat-input').value=t;sendMessage()}
+
+function addMessage(role,content,recs){
+  const empty=document.getElementById('empty');
+  if(empty)empty.remove();
+  const row=document.createElement('div');
+  row.className='msg-row '+role;
+  const av=document.createElement('div');
+  av.className='avatar '+role;
+  av.textContent=role==='user'?'You':'SHL';
+  const bub=document.createElement('div');
+  bub.className='bubble '+role;
+  bub.textContent=content;
+  if(recs&&recs.length>0){
+    const grid=document.createElement('div');
+    grid.className='rec-grid';
+    recs.forEach(r=>{
+      const t=(r.test_type||'K').split(' ')[0];
+      const a=document.createElement('a');
+      a.className='rec-card';
+      a.href=r.url;
+      a.target='_blank';
+      a.innerHTML=`<div class="rec-icon ${t}">${TYPE_ICONS[t]||'📝'}</div><div class="rec-info"><div class="rec-name">${r.name}</div><div class="rec-type">${TYPE_LABELS[t]||t}</div></div><span class="rec-arrow">↗</span>`;
+      grid.appendChild(a);
+    });
+    bub.appendChild(grid);
+  }
+  if(role==='user'){row.appendChild(bub);row.appendChild(av)}
+  else{row.appendChild(av);row.appendChild(bub)}
+  const msgs=document.getElementById('messages');
+  msgs.appendChild(row);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+function addTyping(){
+  const row=document.createElement('div');
+  row.className='msg-row assistant';row.id='typing-row';
+  const av=document.createElement('div');av.className='avatar assistant';av.textContent='SHL';
+  const bub=document.createElement('div');bub.className='bubble assistant typing';bub.textContent='Finding the best assessments…';
+  row.appendChild(av);row.appendChild(bub);
+  document.getElementById('messages').appendChild(row);
+  document.getElementById('messages').scrollTop=9999;
+}
+
+async function sendMessage(){
+  if(waiting)return;
+  const input=document.getElementById('chat-input');
+  const text=input.value.trim();
+  if(!text)return;
+  input.value='';input.style.height='auto';
+  waiting=true;document.getElementById('send-btn').disabled=true;
+  history.push({role:'user',content:text});
+  addMessage('user',text);
+  addTyping();
+  try{
+    const resp=await fetch(API+'/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:history})});
+    if(!resp.ok)throw new Error('HTTP '+resp.status);
+    const data=await resp.json();
+    document.getElementById('typing-row')?.remove();
+    history.push({role:'assistant',content:data.reply});
+    addMessage('assistant',data.reply,data.recommendations);
+  }catch(e){
+    document.getElementById('typing-row')?.remove();
+    addMessage('assistant','Could not reach the server. Make sure uvicorn is running at localhost:8000.');
+  }
+  waiting=false;document.getElementById('send-btn').disabled=false;input.focus();
+}
+document.getElementById('chat-input').focus();
+</script>
+</body>
+</html>
